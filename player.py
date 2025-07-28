@@ -6,6 +6,7 @@ class Player(CircleShape):
     def __init__(self, x, y):
         super().__init__(x, y, PLAYER_RADIUS)
         self.rotation = 0
+        self.velocity = 0
 
     def triangle(self):
         forward = pygame.Vector2(0,1).rotate(self.rotation)
@@ -24,10 +25,21 @@ class Player(CircleShape):
     def move(self, dt):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
         self.position += forward * PLAYER_SPEED * dt
-        self.velocity = 300
+        self.velocity = forward * PLAYER_SPEED * dt
+
+    def decelerate(self, dt):
+        if self.velocity < 1:
+            return;
+        forward = pygame.Vector2(0, 1).rotate(self.rotation)
+        self.position += forward * -self.velocity * dt
 
     def update(self, dt):
         keys = pygame.key.get_pressed()
+
+        if not (keys[pygame.K_s] or keys[pygame.K_w] or keys[pygame.K_d] or keys[pygame.K_a]):
+            print("NO KEY PRESSED")
+            self.decelerate(dt)
+            return;
 
         if keys[pygame.K_a]:
             self.rotate(-dt)
@@ -38,3 +50,5 @@ class Player(CircleShape):
         if keys[pygame.K_s]:
             self.move(-dt)
 
+        print("KEY IS PRESSED")
+ 
