@@ -6,7 +6,7 @@ class Player(CircleShape):
     def __init__(self, x, y):
         super().__init__(x, y, PLAYER_RADIUS)
         self.rotation = 0
-        self.velocity = 0
+        self.current_speed = 0
 
     def triangle(self):
         forward = pygame.Vector2(0,1).rotate(self.rotation)
@@ -22,33 +22,39 @@ class Player(CircleShape):
     def rotate(self, dt):
         self.rotation += PLAYER_TURN_SPEED * dt
 
-    def move(self, dt):
-        forward = pygame.Vector2(0, 1).rotate(self.rotation)
-        self.position += forward * PLAYER_SPEED * dt
-        self.velocity = forward * PLAYER_SPEED * dt
+    def set_direction(self, forward, dt):
+        if forward and self.current_speed < 0:
+            self.decelerate(dt)
+        elif not forward and self.current_speed > 0:
+            self.decelerate(dt)
+        else:
+            self.current_speed = PLAYER_SPEED if forward else -PLAYER_SPEED
 
     def decelerate(self, dt):
-        if self.velocity < 1:
-            return;
+        DECELERATION = 300
+        if self.current_speed > 0:
+            self.current_speed = max(self.current_speed - DECELERATION * dt, 0)
+        elif self.current_speed < 0:
+            self.current_speed = min(self.current_speed + DECELERATION * dt, 0)
+
+    def move(self, dt):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
-        self.position += forward * -self.velocity * dt
+        self.position += forward * self.current_speed * dt # Example of what is happening -> player.position(200, 400) + next_position_per_frame((-0.12, 1.88) * 10 * 0.16)
 
     def update(self, dt):
         keys = pygame.key.get_pressed()
-
-        if not (keys[pygame.K_s] or keys[pygame.K_w] or keys[pygame.K_d] or keys[pygame.K_a]):
-            print("NO KEY PRESSED")
-            self.decelerate(dt)
-            return;
 
         if keys[pygame.K_a]:
             self.rotate(-dt)
         if keys[pygame.K_d]:
             self.rotate(dt)
-        if keys[pygame.K_w]:
-            self.move(dt)
-        if keys[pygame.K_s]:
-            self.move(-dt)
 
-        print("KEY IS PRESSED")
- 
+        if keys[pygame.K_w]:
+            self.set_direction(True, dt)
+        elif keys[pygame.K_s]:
+            self.set_direction(False, dt)
+        else:
+            self.decelerate(dt)
+            
+        print(self.current_speed)
+        self.move(dt)
