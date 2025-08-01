@@ -1,12 +1,12 @@
 class SceneManager:
-  stack = []
-
+  def __init__(self):
+    self.stack = []
   
   def next_scene(self, scene):
     self.stack.append(scene)
     
-  def current_scene(self, dt):
-    return self.stack[-1].run(dt)
-  
-  def run(self):
-    pass
+  def prev_scene(self):
+    return self.stack.pop()
+    
+  def current_scene(self):
+    return self.stack[-1]

@@ -4,14 +4,13 @@ from game.player.base_player import BasePlayer
 from game.weapon.basic_bullet import BasicBullet
 from game.enemy.asteroid import Asteroid
 from game.enemy.asteroidfield import AsteroidField
-from scene.scene_manager import SceneManager
-from constants import *
 from menu.pause import Pause
+from constants import *
 
-class GameScene(SceneManager):
+class GameScene:
   
-  def __init__(self, screen):
-    # super().__init__()
+  def __init__(self, scene_manager, screen):
+    self.scene_manager = scene_manager
     self.screen = screen
     self.asteroids = pygame.sprite.Group() 
     self.updatable = pygame.sprite.Group()
@@ -27,11 +26,12 @@ class GameScene(SceneManager):
     self.player = BasePlayer(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
     self.asteroidSpawner = AsteroidField()
 
-  def run(self, dt):
-    print("this is the stack", self.stack)
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_ESCAPE]:
-      self.next_scene(Pause(self.screen))
+  def run(self, events, dt):
+    for event in events:
+      if event.type == pygame.KEYDOWN:
+        if event.key == pygame.K_ESCAPE:
+          self.scene_manager.next_scene(Pause(self.scene_manager, self.screen))
+ 
     self.updatable.update(dt)
 
     for obj in self.asteroids:
