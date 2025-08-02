@@ -1,7 +1,6 @@
 class SceneManager:
   def __init__(self):
     self.__stack = []
-    # self.__current_stack = self.stack[-1]
 
   @property
   def current_scene(self):
