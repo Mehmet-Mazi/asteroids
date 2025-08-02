@@ -3,7 +3,7 @@ import sys
 from constants import *
 from game.game_scene import GameScene
 from menu.pause import Pause
-from scene.scene_manager import SceneManager
+from state.scene_manager import SceneManager
 
 def main():
     pygame.init()
@@ -16,9 +16,7 @@ def main():
     clock = pygame.time.Clock()
     dt = 0
     scene_manager = SceneManager()
-    scene_manager.next_scene(GameScene(scene_manager, screen)) # Starting scene
-    print("first stack", scene_manager.stack)
-    
+    scene_manager.current_scene = GameScene(scene_manager, screen) # Starting scene
     
     while True:
         events = pygame.event.get()
@@ -28,7 +26,7 @@ def main():
 
         screen.fill("#3c3330")
 
-        scene_manager.current_scene().run(events, dt)
+        scene_manager.current_scene.run(events, dt)
         
         pygame.display.flip()
         dt = clock.tick(60) / 1000
