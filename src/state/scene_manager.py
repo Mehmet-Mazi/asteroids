@@ -13,4 +13,9 @@ class SceneManager:
   @current_scene.deleter
   def current_scene(self):
     return self.__stack.pop()
+
+  def stack(self):
+    return self.__stack
     
+  def clear(self):
+    self.__stack = []
