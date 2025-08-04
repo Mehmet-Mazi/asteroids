@@ -15,9 +15,7 @@ def main():
     
     clock = pygame.time.Clock()
     dt = 0
-    scene_manager = SceneManager(screen)
-    scene_manager.current_scene = TitleScene(scene_manager, screen) # Starting scene explicitly set
-    # scene_manager.current_scene = GameScene(scene_manager, screen) # Starting scene
+    scene_manager = SceneManager(screen, TitleScene)
     
     while True:
         events = pygame.event.get()

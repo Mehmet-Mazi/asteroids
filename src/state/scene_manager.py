@@ -4,14 +4,15 @@ from menu.pause_scene import PauseScene
 from menu.title_scene import TitleScene
 
 class SceneManager:
-  def __init__(self, screen):
+  def __init__(self, screen, base_scene):
     self.__screen = screen
-    self.__stack = []
+    self.__base_scene = base_scene(self, self.__screen)
+    self.__stack = [self.__base_scene]
     self.__transition_map = {
       "start_game": lambda **kwargs:setattr(self, "current_scene", GameScene(self, self.__screen, kwargs)),
       "pause": lambda:setattr(self, "current_scene", PauseScene(self, self.__screen)),
       "resume": lambda:delattr(self, "current_scene"),
-      "title_scene": lambda: self.reset_scene(TitleScene(self, self.__screen)),
+      "title_scene": lambda: self.reset_scene(self.__base_scene),
     }
 
   @property
