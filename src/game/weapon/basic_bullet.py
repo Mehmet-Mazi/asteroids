@@ -1,5 +1,5 @@
 import pygame
-from game.helper.circleshape import CircleShape
+from game.core.circleshape import CircleShape
 
 class BasicBullet(CircleShape):
 

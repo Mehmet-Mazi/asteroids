@@ -1,8 +1,8 @@
 import pygame
 import sys
 from constants import *
+from menu.title_scene import TitleScene
 from game.game_scene import GameScene
-from menu.pause import Pause
 from state.scene_manager import SceneManager
 
 def main():
@@ -15,8 +15,9 @@ def main():
     
     clock = pygame.time.Clock()
     dt = 0
-    scene_manager = SceneManager()
-    scene_manager.current_scene = GameScene(scene_manager, screen) # Starting scene
+    scene_manager = SceneManager(screen)
+    scene_manager.current_scene = TitleScene(scene_manager, screen) # Starting scene explicitly set
+    # scene_manager.current_scene = GameScene(scene_manager, screen) # Starting scene
     
     while True:
         events = pygame.event.get()
@@ -24,9 +25,9 @@ def main():
             if event.type == pygame.QUIT:
                 return
 
-        screen.fill("#3c3330")
+        scene_manager.update(events, dt)
 
-        scene_manager.current_scene.run(events, dt)
+        print(scene_manager.stack())
         
         pygame.display.flip()
         dt = clock.tick(60) / 1000

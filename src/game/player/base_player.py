@@ -1,5 +1,5 @@
 import pygame
-from game.helper.circleshape import CircleShape
+from game.core.circleshape import CircleShape
 from game.weapon.basic_bullet import BasicBullet
 from constants import PLAYER_RADIUS, PLAYER_TURN_SPEED, PLAYER_SPEED, SHOT_RADIUS, PLAYER_SHOOT_SPEED, PLAYER_SHOOT_COOLDOWN
 

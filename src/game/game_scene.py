@@ -4,15 +4,17 @@ from game.player.base_player import BasePlayer
 from game.weapon.basic_bullet import BasicBullet
 from game.enemy.asteroid import Asteroid
 from game.enemy.asteroidfield import AsteroidField
-from menu.pause import Pause
+from state.base_scene import BaseScene
+from state.transition import Transition
 from constants import *
 
-class GameScene:
+class GameScene(BaseScene):
+  allowed_transitions = {"pause"}
   
-  def __init__(self, scene_manager, screen):
+  def __init__(self, scene_manager, screen, game_state):
     self.scene_manager = scene_manager
     self.screen = screen
-    
+
     self.asteroids = pygame.sprite.Group() 
     self.updatable = pygame.sprite.Group()
     self.drawable = pygame.sprite.Group()
@@ -27,11 +29,17 @@ class GameScene:
     self.player = BasePlayer(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
     self.asteroidSpawner = AsteroidField()
 
+    self.game_state = {
+      "flags": {"paused": False, "game_over": False}
+    }
+
   def run(self, events, dt):
+    self.screen.fill("#3c3330")
+    
     for event in events:
       if event.type == pygame.KEYDOWN:
         if event.key == pygame.K_ESCAPE:
-          self.scene_manager.current_scene = Pause(self.scene_manager, self.screen)
+          return Transition("pause")
  
     self.updatable.update(dt)
 
