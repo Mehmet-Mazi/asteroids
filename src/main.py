@@ -3,7 +3,8 @@ import sys
 from constants import *
 from menu.title_scene import TitleScene
 from game.game_scene import GameScene
-from state.scene_manager import SceneManager
+# from state.scene_manager import SceneManager
+from main_scene_manager import MainSceneManager
 
 def main():
     pygame.init()
@@ -15,7 +16,7 @@ def main():
     
     clock = pygame.time.Clock()
     dt = 0
-    scene_manager = SceneManager(screen, TitleScene)
+    scene_manager = MainSceneManager(screen, TitleScene)
     
     while True:
         events = pygame.event.get()

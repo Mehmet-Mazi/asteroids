@@ -23,11 +23,7 @@ class TitleScene(BaseScene):
     pass
 
   def start_the_game(self):
-      print("pre-is enabled", self.menu.is_enabled())
-      print("is enabled", self.menu.is_enabled())
       self.__pending_transition = Transition("start_game")
-      # self.scene_manager.clear()
-      # self.scene_manager.current_scene = GameScene(self.scene_manager, self.screen)
 
   def onclose(self):
     print("closing screen")
@@ -38,4 +34,6 @@ class TitleScene(BaseScene):
         self.menu.draw(self.screen)
 
     if self.__pending_transition:
-        return self.__pending_transition
+        transition = self.__pending_transition
+        self.__pending_transition = None
+        return transition
