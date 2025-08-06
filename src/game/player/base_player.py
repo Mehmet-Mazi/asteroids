@@ -1,7 +1,15 @@
 import pygame
 from game.core.circleshape import CircleShape
 from game.weapon.basic_bullet import BasicBullet
-from constants import PLAYER_RADIUS, PLAYER_TURN_SPEED, PLAYER_SPEED, SHOT_RADIUS, PLAYER_SHOOT_SPEED, PLAYER_SHOOT_COOLDOWN
+from constants import (
+    PLAYER_RADIUS,
+    PLAYER_TURN_SPEED,
+    PLAYER_SPEED,
+    SHOT_RADIUS,
+    PLAYER_SHOOT_SPEED,
+    PLAYER_SHOOT_COOLDOWN,
+)
+
 
 class BasePlayer(CircleShape):
     def __init__(self, x, y):
@@ -11,12 +19,12 @@ class BasePlayer(CircleShape):
         self.shoot_cooldown = 0
 
     def triangle(self):
-        forward = pygame.Vector2(0,1).rotate(self.rotation)
-        right = pygame.Vector2(0,1).rotate(self.rotation + 90) * self.radius / 1.5
+        forward = pygame.Vector2(0, 1).rotate(self.rotation)
+        right = pygame.Vector2(0, 1).rotate(self.rotation + 90) * self.radius / 1.5
         a = self.position + forward * self.radius
         b = self.position - forward * self.radius - right
         c = self.position - forward * self.radius + right
-        return [a,b,c]
+        return [a, b, c]
 
     def draw(self, screen):
         pygame.draw.polygon(screen, "white", self.triangle(), 2)
@@ -41,7 +49,9 @@ class BasePlayer(CircleShape):
 
     def move(self, dt):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
-        self.position += forward * self.current_speed * dt # Example of what is happening -> player.position(200, 400) + next_position_per_frame((-0.12, 1.88) * 10 * 0.16)
+        self.position += (
+            forward * self.current_speed * dt
+        )  # Example of what is happening -> player.position(200, 400) + next_position_per_frame((-0.12, 1.88) * 10 * 0.16)
 
     def update(self, dt):
         self.shoot_cooldown -= dt
@@ -69,4 +79,6 @@ class BasePlayer(CircleShape):
             return
         self.shoot_cooldown = PLAYER_SHOOT_COOLDOWN
         bullet = BasicBullet(self.position.x, self.position.y, SHOT_RADIUS)
-        bullet.velocity = pygame.Vector2(0,1).rotate(self.rotation) * PLAYER_SHOOT_SPEED
+        bullet.velocity = (
+            pygame.Vector2(0, 1).rotate(self.rotation) * PLAYER_SHOOT_SPEED
+        )

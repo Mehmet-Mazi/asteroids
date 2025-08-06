@@ -8,6 +8,6 @@ class BaseScene:
 
     def on_exit(self):
         pass
-    
+
     def run(self):
-        raise NotImplementederror("Scene must implement run()")
+        raise NotImplementedError("Scene must implement run()")
