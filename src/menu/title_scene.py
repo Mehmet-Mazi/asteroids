@@ -1,4 +1,3 @@
-import pygame
 import pygame_menu
 from state.base_scene import BaseScene
 from state.transition import Transition

@@ -1,7 +1,6 @@
 from state.scene_manager import SceneManager
 from game.game_scene import GameScene
 from menu.pause_scene import PauseScene
-from menu.title_scene import TitleScene
 
 class MainSceneManager(SceneManager):
 

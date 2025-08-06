@@ -1,9 +1,6 @@
 import pygame
-import sys
 from constants import *
 from menu.title_scene import TitleScene
-from game.game_scene import GameScene
-# from state.scene_manager import SceneManager
 from main_scene_manager import MainSceneManager
 
 def main():
