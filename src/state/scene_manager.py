@@ -14,8 +14,8 @@ class SceneManager:
             self.handle_transition(result)
 
     def handle_transition(self, transition):
-        allowed = getattr(self.current_scene, "allowed_transitions", set())
-        if transition.type not in allowed:
+        # allowed = getattr(self.current_scene, "allowed_transitions", set())
+        if transition.type not in self._transition_map:
             raise Exception(
                 f"Invalid transition '{transition.type}' from {type(self.current_scene).__name__}"
             )
